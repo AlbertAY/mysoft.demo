@@ -31,14 +31,12 @@ namespace Mysoft.Demo.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=EFGetStarted.AspNetCore.NewDb;Trusted_Connection=True;ConnectRetryCount=0";
+            //初始化数据库链接
             services.AddDbContext<DemoContext>
-                (options => options.UseSqlServer(connection));
+                (options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:Default")));
 
-            // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
+            //添加Swagger
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Info { Title = "Mysoft.Demo.Web API", Version = "v1" });
@@ -69,9 +67,9 @@ namespace Mysoft.Demo.Web
 
             app.UseMvc();
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint
+            //启用Swaggerjson
             app.UseSwagger();
-            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            //启用SwaggerUI
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Mysoft.Demo API V1");

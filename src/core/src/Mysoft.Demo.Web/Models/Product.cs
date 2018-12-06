@@ -25,5 +25,11 @@ namespace Mysoft.Demo.Web.Models
         [MaxLength(100)]
         public string ProductCode { get; set; }
 
+        /// <summary>
+        /// 默认为null
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Remark { set; get; }
+
     }
 }
