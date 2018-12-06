@@ -1,0 +1,10 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# IDEs and editors
+.vs/
+obj/
+bin/
+aspnet-core/src/JiaoZi.Web.Host/App_Data/Logs/
+aspnet-core/src/JiaoZi.Web.Host/appsettings.json
+aspnet-core/src/JiaoZi.Web.Mvc/App_Data/Logs/
+aspnet-core/src/JiaoZi.Migrator/Logs/Logs.txt
