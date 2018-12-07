@@ -67,7 +67,7 @@ namespace Mysoft.Demo.Web
 
             app.UseMvc();
 
-            //启用Swaggerjson
+            //启用Swagger
             app.UseSwagger();
             //启用SwaggerUI
             app.UseSwaggerUI(options =>
