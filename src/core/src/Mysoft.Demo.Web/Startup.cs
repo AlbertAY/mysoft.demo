@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
+using Mysoft.Demo.Web.Extensions;
 using Mysoft.Demo.Web.Models.DBConfig;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -21,6 +22,7 @@ namespace Mysoft.Demo.Web
 {
     public class Startup
     {
+        private const string _defaultCorsPolicyName = "localhost";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,11 +34,34 @@ namespace Mysoft.Demo.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            //初始化数据库链接
+
+            #region 初始化数据库链接
             services.AddDbContext<DemoContext>
                 (options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:Default")));
+            #endregion
 
-            //添加Swagger
+            var sss = Configuration.GetValue<string>("App:CorsOrigins");
+
+            #region 设置允许跨域
+            services.AddCors(
+                options => options.AddPolicy(
+                    _defaultCorsPolicyName,
+                    builder => builder
+                        .WithOrigins(
+                            // App:CorsOrigins in appsettings.json can contain more than one address separated by comma.
+                            Configuration.GetValue<string>("App:CorsOrigins")
+                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                                .Select(o => o.RemovePostFix("/"))
+                                .ToArray()
+                        )
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                )
+            );
+            #endregion
+
+            #region 添加Swagger
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Info { Title = "Mysoft.Demo.Web API", Version = "v1" });
@@ -55,6 +80,7 @@ namespace Mysoft.Demo.Web
                 options.DescribeAllEnumsAsStrings();
                 ////options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,10 +90,11 @@ namespace Mysoft.Demo.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(_defaultCorsPolicyName); // Enable CORS!
 
             app.UseMvc();
 
-            //启用Swagger
+            #region 启用Swagger
             app.UseSwagger();
             //启用SwaggerUI
             app.UseSwaggerUI(options =>
@@ -75,7 +102,7 @@ namespace Mysoft.Demo.Web
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Mysoft.Demo API V1");
              
             });
-
+            #endregion
 
         }
 
