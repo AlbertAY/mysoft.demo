@@ -40,8 +40,6 @@ namespace Mysoft.Demo.Web
                 (options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:Default")));
             #endregion
 
-            var sss = Configuration.GetValue<string>("App:CorsOrigins");
-
             #region 设置允许跨域
             services.AddCors(
                 options => options.AddPolicy(

@@ -54,8 +54,11 @@ namespace Mysoft.Demo.Web.Controllers
         /// </summary>
         /// <param name="value"></param>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post(Product value)
         {
+            _context.Products.Add(value);
+            _context.SaveChanges();
+
         }
 
         /// <summary>
