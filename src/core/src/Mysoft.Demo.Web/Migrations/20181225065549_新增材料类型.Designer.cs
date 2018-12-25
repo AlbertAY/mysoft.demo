@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mysoft.Demo.Web.Models.DBConfig;
 
 namespace Mysoft.Demo.Web.Migrations
 {
     [DbContext(typeof(DemoContext))]
-    partial class DemoContextModelSnapshot : ModelSnapshot
+    [Migration("20181225065549_新增材料类型")]
+    partial class 新增材料类型
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

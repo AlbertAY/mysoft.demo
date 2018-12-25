@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <el-row>
@@ -26,8 +25,19 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-button type="primary" @click="save()" >保存</el-button>
+      <el-button type="primary" @click="save()">保存</el-button>
       <el-button>取消</el-button>
+    </el-row>
+    <el-row>
+      <el-select v-model="value2" placeholder="请选择">
+        <el-option
+          v-for="item in options2"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+          :disabled="item.disabled"
+        ></el-option>
+      </el-select>
     </el-row>
   </div>
 </template>
@@ -78,12 +88,13 @@ export default {
           console.log(error);
         });
     },
-    save(){
-        
-        var self = this;
-        console.log(self.model);
-        this.$http
-        .post("/api/Product/",self.model)
+    save() {
+      var self = this;
+      console.log(self.model);
+      this.$http
+        .post("/api/Product/", JSON.stringify(self.model), {
+          headers: { "Content-Type": "application/json" }
+        })
         .then(function(res) {
           console.log(res);
           self.model = res.data;

@@ -1,6 +1,9 @@
 
 <template>
   <div>
+  <product-search v-bind:"v-bind" >
+  </product-search>
+
     <el-button type="primary">主要按钮</el-button>
 
     <el-table :data="tableData" border style="width: 100%">
@@ -29,6 +32,8 @@
 
 
 <script>
+import HeaderConfigItem from '@/types/HeaderConfigItem.ts';
+
 export default {
   created() {
     this.getData();
@@ -52,6 +57,10 @@ export default {
     },
     edit(row) {
       console.log(row);
+      this.$router.push('/product/edit')
+    },
+    initSearch(){
+      
     }
   },
 

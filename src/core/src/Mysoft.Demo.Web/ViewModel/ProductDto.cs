@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mysoft.Demo.Web.Models
+namespace Mysoft.Demo.Web.ViewModel
 {
     /// <summary>
-    /// 产品表
+    /// 材料DTO
     /// </summary>
-    [Table("Products")]
-    public class Product
+    public class ProductDto
     {
+
         /// <summary>
         /// 产品GUID
         /// </summary>
@@ -66,11 +66,8 @@ namespace Mysoft.Demo.Web.Models
         /// </summary>
         public string Description { set; get; }
 
-        /// <summary>
-        /// 材料类型
-        /// </summary>
-        [Column("ProductTypeGUID")]
-        public virtual ProductType ProductType { get; set; }
+
+
 
     }
 }

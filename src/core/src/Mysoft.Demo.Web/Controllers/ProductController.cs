@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Mysoft.Demo.Web.Models;
 using Mysoft.Demo.Web.Models.DBConfig;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -52,13 +53,22 @@ namespace Mysoft.Demo.Web.Controllers
         /// <summary>
         /// 保存
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="data"></param>
         [HttpPost]
-        public void Post(Product value)
+        public void Post([FromBody]Product data)
         {
-            _context.Products.Add(value);
-            _context.SaveChanges();
+            //Product data= JsonConvert.DeserializeObject<Product>(value);
+            Product product = _context.Products.Find(data.ProductGUID);
+            if (product == null)
+            {
+                _context.Products.Add(data);
+                _context.SaveChanges();
+            }
+            else
+            {
 
+                _context.Products.Update(data);
+            }
         }
 
         /// <summary>
